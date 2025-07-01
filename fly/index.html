@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLY 游戏辅助器 - 专业游戏助手工具</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTttlRmhnKIIrHZt7GEHcMZGhQ15jebWL-NrQ&s">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --accent: #00cec9;
+            --dark: #121220;
+            --darker: #0c0c17;
+            --light: #f8f9fa;
+            --danger: #ff7675;
+            --success: #55efc4;
+            --warning: #fdcb6e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        /* 高级导航栏 */
+        header {
+            background: rgba(18, 18, 32, 0.9);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(108, 92, 231, 0.3);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--light);
+            text-decoration: none;
+        }
+        
+        .logo i {
+            color: var(--accent);
+            animation: pulse 2s infinite;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        
+        .download-btn {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(108, 92, 231, 0.4);
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(108, 92, 231, 0.6);
+        }
+        
+        /* 英雄区域 */
+        .hero {
+            padding: 12rem 5% 5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(108, 92, 231, 0.1), transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(0, 206, 201, 0.1), transparent 40%);
+            z-index: -1;
+        }
+        
+        .hero-content {
+            max-width: 600px;
+            animation: fadeInUp 1s ease;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            background: linear-gradient(to right, var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .hero-image {
+            position: relative;
+            width: 45%;
+            perspective: 1000px;
+        }
+        
+        .phone-mockup {
+            width: 100%;
+            max-width: 300px;
+            position: relative;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            transform: rotateY(-15deg);
+            transition: transform 0.5s ease;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .phone-mockup:hover {
+            transform: rotateY(0deg);
+        }
+        
+        .screen {
+            position: relative;
+            padding-top: 200%;
+            background: linear-gradient(45deg, #2c2c54, #40407a);
+            overflow: hidden;
+        }
+        
+        .app-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 20% 10%;
+            text-align: center;
+            color: white;
+        }
+        
+        .app-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        
+        .app-content p {
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .app-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .app-btn:hover {
+            background: var(--secondary);
+        }
+        
+        .features {
+            padding: 6rem 5%;
+            background: var(--darker);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            display: inline-block;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(108, 92, 231, 0.3);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* 安全信任区 */
+        .trust-section {
+            padding: 6rem 5%;
+            text-align: center;
+            background: var(--dark);
+        }
+        
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 3rem;
+            margin: 3rem 0;
+        }
+        
+        .badge {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            width: 180px;
+            transition: all 0.3s ease;
+        }
+        
+        .badge:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .badge i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--success);
+        }
+        
+        /* 下载区域 */
+        .download-section {
+            padding: 6rem 5%;
+            background: linear-gradient(135deg, var(--darker), #1a1a2e);
+            text-align: center;
+        }
+        
+        .download-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+        
+        .download-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, rgba(108, 92, 231, 0.1), transparent 30%);
+            animation: rotate 6s linear infinite;
+            z-index: 0;
+        }
+        
+        .download-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .download-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .download-content p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .big-download-btn {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(108, 92, 231, 0.5);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+        
+        .big-download-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(108, 92, 231, 0.7);
+        }
+        
+        .version-info {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        /* 页脚 */
+        footer {
+            background: var(--darker);
+            padding: 4rem 5% 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: var(--light);
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--accent);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        /* 动画 */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 10rem;
+            }
+            
+            .hero-content {
+                margin-bottom: 3rem;
+            }
+            
+            .hero-image {
+                width: 80%;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .download-container {
+                padding: 3rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <a href="#" class="logo">
+            <i class="fas fa-gamepad"></i>
+            <span>FLY 游戏辅助器</span>
+        </a>
+        
+        <ul class="nav-links">
+            <li><a href="#features">功能特点</a></li>
+            <li><a href="#screenshots">截图展示</a></li>
+            <li><a href="#download">下载</a></li>
+            <li><a href="#faq">常见问题</a></li>
+            <li><a href="#contact">联系我们</a></li>
+        </ul>
+        
+        <button class="download-btn">
+            <i class="fas fa-download"></i> 立即下载 FLY
+        </button>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>重新定义您的手机游戏体验</h1>
+            <p>万能游戏辅助器是新一代游戏增强工具，为您提供无与伦比的游戏优势。安全、高效、易用，支持超过1000款热门手机游戏。</p>
+            <div class="hero-buttons">
+                <button class="download-btn">
+                    <i class="fas fa-download"></i> 免费下载 FLY
+                </button>
+                <button style="background: transparent; border: 2px solid var(--accent); margin-left: 1rem;">
+                    <i class="fas fa-play-circle"></i> 观看演示
+                </button>
+            </div>
+            
+            <div class="stats">
+                <div style="display: flex; gap: 2rem; margin-top: 3rem;">
+                    <div>
+                        <h3>500万+</h3>
+                        <p>全球用户</p>
+                    </div>
+                    <div>
+                        <h3>1000+</h3>
+                        <p>支持游戏</p>
+                    </div>
+                    <div>
+                        <h3>99.9%</h3>
+                        <p>安全保证</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hero-image">
+            <div class="phone-mockup">
+                <div class="screen">
+                    <div class="app-content">
+                        <i class="fas fa-gamepad" style="font-size: 3rem; color: var(--accent); margin-bottom: 1rem;"></i>
+                        <h3>万能游戏辅助器</h3>
+                        <p>专业级游戏增强工具</p>
+                        <button class="app-btn">立即激活</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 功能特点 -->
+    <section class="features" id="features">
+        <div class="section-title">
+            <h2>强大功能</h2>
+            <p>为您提供全方位的游戏优势</p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3>一键优化</h3>
+                <p>智能优化游戏性能，提升帧率，减少延迟，让您的游戏体验更加流畅。</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h3>智能脚本</h3>
+                <p>内置数百款游戏智能脚本，自动完成复杂操作，轻松获取游戏资源。</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>安全防护</h3>
+                <p>多层加密保护，完全匿名使用，确保您的账号安全无忧。</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-sync-alt"></i>
+                </div>
+                <h3>实时更新</h3>
+                <p>24小时内适配最新游戏版本，持续提供稳定可靠的支持服务。</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-plug"></i>
+                </div>
+                <h3>无需Root</h3>
+                <p>无需Root权限，不修改游戏文件，兼容所有主流安卓设备。</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h3>专业支持</h3>
+                <p>7×24小时专业客服支持，解决您使用过程中的任何问题。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 信任区域 -->
+    <section class="trust-section">
+        <div class="section-title">
+            <h2>安全可靠</h2>
+            <p>百万用户的选择与信任</p>
+        </div>
+        
+        <div class="trust-badges">
+            <div class="badge">
+                <i class="fas fa-lock"></i>
+                <h4>数据加密</h4>
+                <p>端到端加密保护</p>
+            </div>
+            
+            <div class="badge">
+                <i class="fas fa-user-shield"></i>
+                <h4>隐私保护</h4>
+                <p>绝不收集个人信息</p>
+            </div>
+            
+            <div class="badge">
+                <i class="fas fa-virus-slash"></i>
+                <h4>无病毒</h4>
+                <p>通过安全认证</p>
+            </div>
+            
+            <div class="badge">
+                <i class="fas fa-gem"></i>
+                <h4>高级会员</h4>
+                <p>专属特权支持</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 下载区域 -->
+    <section class="download-section" id="download">
+        <div class="download-container">
+            <div class="download-content">
+                <h2>下载 FLY 游戏辅助器</h2>
+                <p>加入全球500万游戏玩家的行列，提升您的游戏体验，轻松达到顶级水平！</p>
+                
+                <button class="big-download-btn" id="downloadButton">
+                    <i class="fas fa-download"></i> 免费下载 APK
+                </button>
+                
+                <div class="version-info">
+                    <p>当前版本: v2.5.1 | 文件大小: 4.5 MB | 更新日期: 2025-6-28</p>
+                    <p>支持系统: Android 7.0 及以上</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>万能游戏辅助器</h3>
+                <p>专业游戏辅助工具开发商，致力于为全球玩家提供安全、高效的游戏增强解决方案。</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>快速链接</h3>
+                <ul class="footer-links">
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#features">功能特点</a></li>
+                    <li><a href="#download">下载</a></li>
+                    <li><a href="#">使用教程</a></li>
+                    <li><a href="#">支持游戏列表</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>支持</h3>
+                <ul class="footer-links">
+                    <li><a href="#">常见问题</a></li>
+                    <li><a href="#">用户手册</a></li>
+                    <li><a href="#">联系客服</a></li>
+                    <li><a href="#">反馈建议</a></li>
+                    <li><a href="#">服务状态</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>法律信息</h3>
+                <ul class="footer-links">
+                    <li><a href="#">服务条款</a></li>
+                    <li><a href="#">隐私政策</a></li>
+                    <li><a href="#">免责声明</a></li>
+                    <li><a href="#">版权信息</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2023 万能游戏辅助器. 保留所有权利。本软件仅用于个人学习和研究目的。</p>
+        </div>
+    </footer>
+
+    <script>
+        // 下载按钮功能
+        document.getElementById('downloadButton').addEventListener('click', function() {
+            // 在实际使用时，请替换为您的APK下载链接
+            const apkUrl = 'https://example.com/your-game-assistant.apk';
+            
+            // 创建临时下载链接
+            const link = document.createElement('a');
+            link.href = apkUrl;
+            link.download = '万能游戏辅助器_v2.5.1.apk';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // 下载提示
+            alert('万能游戏辅助器 APK 开始下载！如果下载未开始，请检查浏览器设置。');
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
